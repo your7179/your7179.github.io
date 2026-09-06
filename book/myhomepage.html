@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나도 만든다, 우리집 인터넷 홈페이지 - 신광태</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F5F0E4;
+    --paper-deep: #EDE5D3;
+    --ink: #2B2620;
+    --ink-soft: #5C5346;
+    --sage: #6E7A52;
+    --sage-deep: #545E3E;
+    --ochre: #B4863A;
+    --seal: #9C3B32;
+    --rule: rgba(43,38,32,0.14);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    line-height:1.75;
+  }
+  a{ color:inherit; }
+  .display{ font-family:'Song Myung', 'Noto Serif KR', serif; }
+
+  .wrap{ max-width:900px; margin:0 auto; padding:64px 24px 100px; }
+
+  .book-hero{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:40px;
+    align-items:start;
+    margin-bottom:70px;
+  }
+  .book-hero img{
+    width:100%;
+    border:1px solid var(--rule);
+    box-shadow:0 6px 0 rgba(43,38,32,0.06);
+  }
+  .book-hero .eyebrow{
+    font-size:13px; letter-spacing:0.2em; color:var(--sage-deep); margin:0 0 12px;
+  }
+  .book-hero h1{
+    font-size:28px; font-weight:400; margin:0 0 16px; line-height:1.4;
+  }
+  .book-hero p{
+    color:var(--ink-soft); font-size:16px; margin:0 0 24px;
+  }
+  .btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; text-decoration:none;
+    padding:11px 20px; font-size:14px; letter-spacing:0.02em;
+    border:1px solid var(--ink); color:var(--ink);
+    transition:background .2s ease, color .2s ease;
+  }
+  .btn:hover{ background:var(--sage-deep); border-color:var(--sage-deep); color:#fff; }
+  .btn.primary{ background:var(--seal); border-color:var(--seal); color:#F5EFE2; }
+  .btn.primary:hover{ background:#7e2f28; border-color:#7e2f28; }
+
+  @media (max-width:600px){
+    .book-hero{ grid-template-columns:1fr; }
+    .book-hero img{ max-width:200px; margin:0 auto; display:block; }
+    .book-hero{ text-align:center; }
+    .btn-row{ justify-content:center; }
+  }
+
+  .section-head{ text-align:center; margin-bottom:28px; }
+  .section-head .num{
+    display:block; font-size:13px; letter-spacing:0.2em; color:var(--ochre); margin-bottom:10px;
+  }
+  .section-head h2{
+    font-family:'Noto Serif KR', serif; font-weight:600; font-size:24px; margin:0;
+  }
+  .section-head .preview-hint{
+    font-size:12.5px; color:var(--ink-soft); margin:6px 0 0;
+  }
+  .section-head .preview-hint:first-of-type{
+    margin-top:10px;
+  }
+
+  .preview-box{
+    border:1px solid var(--rule);
+    background:var(--paper-deep);
+    padding:16px;
+    margin-bottom:60px;
+  }
+  .preview-box iframe{
+    width:100%;
+    height:640px;
+    border:none;
+    background:#fff;
+    display:block;
+  }
+
+  footer{
+    border-top:1px solid var(--rule);
+    padding:30px 24px; text-align:center;
+  }
+  footer p{ font-size:13px; color:var(--ink-soft); margin:0; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <section class="book-hero">
+    <img src="https://aulir.com/wp-content/uploads/2026/08/나도만든다-우리집-인터넷-홈페이지.webp" alt="나도 만든다 우리집 인터넷 홈페이지 책 표지">
+    <div>
+      <p class="eyebrow">參 · 실용서</p>
+      <h1 class="display">나도 만든다, 우리집 인터넷 홈페이지</h1>
+      <p>내 손으로 홈페이지를 만드는 첫걸음. 도메인 등록부터 워드프레스 설치, 게시판 구성까지, 누구나 따라 할 수 있도록 차근차근 담은 책입니다.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="https://product.kyobobook.co.kr/detail/S000221064329" target="_blank" rel="noopener">교보문고에서 구매하기</a>
+        <a class="btn" href="#preview">미리보기 보러가기 ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="preview">
+    <div class="section-head">
+      <span class="num">PREVIEW</span>
+      <h2>책 속 미리보기</h2>
+      <p class="preview-hint">우측 화살표를 넘기면 책장이 넘어갑니다</p>
+      <p class="preview-hint">글자를 크게 보시려면 아래 사각형(한 장 표시)을 클릭한 후, 돋보기 버튼을 이용하세요</p>
+    </div>
+    <div class="preview-box">
+      <iframe src="https://product.kyobobook.co.kr/book/preview/S000221064329?view=double&page=1"
+              loading="lazy"
+              title="나도 만든다 우리집 인터넷 홈페이지 미리보기"></iframe>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>신광태의 저서 소개와 삶의 이야기를 담은 개인 공간입니다.</p>
+</footer>
+
+</body>
+</html>
