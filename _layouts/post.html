@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<style>
+  .post-date{font-size:14px; color:var(--brass); font-weight:700; margin-bottom:10px;}
+  .post-title{font-size:clamp(26px,4vw,32px); margin-bottom:26px;}
+  .post-body{font-size:17px;}
+  .post-body p{margin:0 0 20px;}
+  .post-back{
+    display:inline-block;
+    margin-top:40px;
+    font-size:15px;
+    color:var(--shelf);
+    text-decoration:none;
+    border-bottom:1px solid var(--brass);
+  }
+</style>
+
+<div class="post-date">{{ page.date | date: "%Y.%m.%d" }}</div>
+<h1 class="post-title">{{ page.title }}</h1>
+<div class="post-body">
+  {{ content }}
+</div>
+<a class="post-back" href="/book/ssul/">← 작가SSUL 목록으로</a>
