@@ -45,13 +45,38 @@ description: 신광태 작가가 틈틈이 남기는 짧은 글 모음
     color:var(--ink-soft);
     font-size:15.5px;
   }
+  .ssul-pagination{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .ssul-pagination button{
+    min-width:40px;
+    height:40px;
+    padding:0 8px;
+    border:1px solid var(--line);
+    background:var(--paper-light);
+    color:var(--ink);
+    font-size:15px;
+    font-family:'Noto Sans KR', sans-serif;
+    cursor:pointer;
+  }
+  .ssul-pagination button:hover{border-color:var(--brass);}
+  .ssul-pagination button.active{
+    background:var(--shelf);
+    border-color:var(--shelf);
+    color:var(--paper-light);
+    font-weight:700;
+  }
 </style>
 
 <h1 class="page-title">작가SSUL</h1>
-<p class="page-lede">신광태 작가가 책 밖에서 틈틈이 남기는 짧은 이야기입니다. 새 글을 올리면 이 페이지에 자동으로 카드가 생깁니다.</p>
+<p class="page-lede">SSUL이 말하는 것처럼 별 가치도 없는 이야기일 수도 있습니다.</p>
 
 {% if site.posts.size > 0 %}
-<div class="ssul-grid">
+<div class="ssul-grid" id="ssulGrid">
   {% for post in site.posts %}
   <a class="ssul-card" href="{{ post.url | relative_url }}">
     <div class="ssul-meta">{{ post.date | date: "%Y.%m.%d" }}</div>
@@ -60,6 +85,47 @@ description: 신광태 작가가 틈틈이 남기는 짧은 글 모음
   </a>
   {% endfor %}
 </div>
+<nav class="ssul-pagination" id="ssulPagination" aria-label="페이지 이동"></nav>
+<script>
+(function(){
+  var perPage = 6;
+  var grid = document.getElementById('ssulGrid');
+  var pagination = document.getElementById('ssulPagination');
+  if(!grid || !pagination) return;
+
+  var cards = Array.prototype.slice.call(grid.children);
+  var totalPages = Math.ceil(cards.length / perPage);
+
+  function showPage(page, scroll){
+    cards.forEach(function(card, i){
+      var cardPage = Math.floor(i / perPage) + 1;
+      card.style.display = (cardPage === page) ? '' : 'none';
+    });
+    Array.prototype.forEach.call(pagination.children, function(btn){
+      btn.classList.toggle('active', Number(btn.dataset.page) === page);
+    });
+    if(scroll){
+      var y = grid.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({top:y, behavior:'smooth'});
+    }
+  }
+
+  if(totalPages > 1){
+    for(var p = 1; p <= totalPages; p++){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = p;
+      btn.dataset.page = p;
+      btn.addEventListener('click', function(){
+        showPage(Number(this.dataset.page), true);
+      });
+      pagination.appendChild(btn);
+    }
+  }
+
+  showPage(1, false);
+})();
+</script>
 {% else %}
 <div class="ssul-empty">아직 등록된 글이 없습니다. 첫 이야기를 곧 들려드리겠습니다.</div>
 {% endif %}
