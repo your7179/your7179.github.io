@@ -1,0 +1,65 @@
+---
+layout: default
+title: 작가SSUL
+description: 신광태 작가가 틈틈이 남기는 짧은 글 모음
+---
+<style>
+  .ssul-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-top:36px;
+  }
+  @media (max-width:640px){
+    .ssul-grid{grid-template-columns:1fr;}
+  }
+  .ssul-card{
+    display:block;
+    background:var(--paper-light);
+    border:1px solid var(--line);
+    border-top:3px solid var(--brass);
+    padding:24px 26px;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .ssul-card:hover{border-color:var(--brass);}
+  .ssul-meta{
+    font-size:13px;
+    color:var(--brass);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .ssul-card h3{
+    font-size:19px;
+    margin-bottom:10px;
+  }
+  .ssul-card p{
+    font-size:15.5px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .ssul-empty{
+    margin-top:40px;
+    padding:28px;
+    border:1px dashed var(--brass);
+    color:var(--ink-soft);
+    font-size:15.5px;
+  }
+</style>
+
+<h1 class="page-title">작가SSUL</h1>
+<p class="page-lede">신광태 작가가 책 밖에서 틈틈이 남기는 짧은 이야기입니다. 새 글을 올리면 이 페이지에 자동으로 카드가 생깁니다.</p>
+
+{% if site.posts.size > 0 %}
+<div class="ssul-grid">
+  {% for post in site.posts %}
+  <a class="ssul-card" href="{{ post.url | relative_url }}">
+    <div class="ssul-meta">{{ post.date | date: "%Y.%m.%d" }}</div>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.description | default: post.excerpt | strip_html | truncate: 90 }}</p>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="ssul-empty">아직 등록된 글이 없습니다. 첫 이야기를 곧 들려드리겠습니다.</div>
+{% endif %}
