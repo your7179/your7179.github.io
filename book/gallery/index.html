@@ -1,0 +1,163 @@
+---
+layout: default
+title: 갤러리
+description: 신광태 작가의 사진 갤러리
+---
+<style>
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:14px;
+    margin-top:36px;
+  }
+  @media (max-width:900px){
+    .gallery-grid{grid-template-columns:repeat(3, 1fr);}
+  }
+  @media (max-width:640px){
+    .gallery-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  .gallery-thumb{
+    display:block;
+    padding:0;
+    margin:0;
+    border:1px solid var(--line);
+    background:var(--paper);
+    cursor:pointer;
+    aspect-ratio:1 / 1;
+    overflow:hidden;
+    position:relative;
+  }
+  .gallery-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    margin:0;
+    transition:transform .2s ease;
+  }
+  .gallery-thumb:hover img{transform:scale(1.05);}
+  .gallery-thumb:focus-visible{outline:3px solid var(--brass); outline-offset:2px;}
+
+  .gallery-empty{
+    margin-top:40px;
+    padding:28px;
+    border:1px dashed var(--brass);
+    color:var(--ink-soft);
+    font-size:15.5px;
+  }
+
+  /* ---------- 라이트박스 ---------- */
+  .lightbox{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:rgba(20,17,12,0.92);
+    padding:24px;
+    align-items:center;
+    justify-content:center;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox-inner{
+    max-width:880px;
+    width:100%;
+    max-height:90vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .lightbox-inner img{
+    max-width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    background:#000;
+    margin:0;
+  }
+  .lightbox-caption{
+    color:#F0EBDD;
+    font-size:16px;
+    margin-top:18px;
+    text-align:center;
+    max-width:70ch;
+    line-height:1.7;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:18px;
+    right:20px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.4);
+    background:rgba(255,255,255,0.08);
+    color:#F0EBDD;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+  }
+  .lightbox-close:hover{background:rgba(255,255,255,0.18);}
+</style>
+
+<h1 class="page-title">갤러리</h1>
+<p class="page-lede">사진을 눌러보시면 크게 볼 수 있습니다.</p>
+
+{% assign photos = site.data.gallery %}
+{% if photos and photos.size > 0 %}
+<div class="gallery-grid">
+  {% for photo in photos %}
+  <button type="button" class="gallery-thumb"
+    data-src="{{ '/images/gallery/' | append: photo.file | relative_url }}"
+    data-alt="{{ photo.alt | escape }}"
+    data-caption="{{ photo.caption | escape }}"
+    aria-label="{{ photo.alt | escape }} - 크게 보기">
+    <img src="{{ '/images/gallery/' | append: photo.file | relative_url }}" alt="{{ photo.alt | escape }}" loading="lazy">
+  </button>
+  {% endfor %}
+</div>
+{% else %}
+<div class="gallery-empty">아직 등록된 사진이 없습니다. 곧 사진을 채워 넣겠습니다.</div>
+{% endif %}
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="닫기">✕</button>
+  <div class="lightbox-inner">
+    <img id="lightboxImg" src="" alt="">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var box = document.getElementById('lightbox');
+  var img = document.getElementById('lightboxImg');
+  var caption = document.getElementById('lightboxCaption');
+  var closeBtn = document.getElementById('lightboxClose');
+  if(!box) return;
+
+  function openLightbox(src, alt, cap){
+    img.src = src;
+    img.alt = alt || '';
+    caption.textContent = cap || '';
+    box.classList.add('open');
+    closeBtn.focus();
+  }
+  function closeLightbox(){
+    box.classList.remove('open');
+    img.src = '';
+  }
+
+  document.querySelectorAll('.gallery-thumb').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      openLightbox(btn.dataset.src, btn.dataset.alt, btn.dataset.caption);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+  box.addEventListener('click', function(e){
+    if(e.target === box) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && box.classList.contains('open')) closeLightbox();
+  });
+})();
+</script>
