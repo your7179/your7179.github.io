@@ -39,6 +39,13 @@ permalink: /sitemap.xml
     <priority>0.8</priority>
   </url>
 
+  <!-- 갤러리 페이지 -->
+  <url>
+    <loc>https://shinbook.kr/book/gallery/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- 작가SSUL 글 (새 글을 올리면 이 아래 목록에 자동으로 추가됩니다) -->
   {% for post in site.posts %}
   <url>
