@@ -15,9 +15,8 @@ permalink: /book/ssul/:title/
 markdown: kramdown
 highlighter: rouge
 
-# GitHub Pages가 기본 제공하는 세이프 모드 플러그인만 사용합니다.
-plugins:
-  - jekyll-feed
+# 사이트맵(sitemap.xml)과 RSS 피드(feed.xml)는 플러그인 없이
+# 저장소에 직접 넣은 파일로 만듭니다. 별도 플러그인이 필요 없습니다.
 
 # 아래 폴더/파일은 Jekyll 처리에서 제외합니다.
 exclude:
