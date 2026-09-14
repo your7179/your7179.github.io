@@ -7,8 +7,8 @@ permalink: /feed.xml
 <channel>
 <title>신광태 작가의 서재 — 작가SSUL</title>
 <description>신광태 작가가 틈틈이 남기는 짧은 글 모음</description>
-<link>https://your7179.github.io/book/ssul/</link>
-<atom:link href="https://your7179.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+<link>https://shinbook.kr/book/ssul/</link>
+<atom:link href="https://shinbook.kr/feed.xml" rel="self" type="application/rss+xml"/>
 <language>ko-KR</language>
 <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
 <generator>Jekyll</generator>

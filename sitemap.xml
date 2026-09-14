@@ -7,39 +7,39 @@ permalink: /sitemap.xml
 
   <!-- 기존 고정 페이지 (직접 관리) -->
   <url>
-    <loc>https://your7179.github.io/</loc>
+    <loc>https://shinbook.kr/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your7179.github.io/book/</loc>
+    <loc>https://shinbook.kr/book/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your7179.github.io/book/mybrand.html</loc>
+    <loc>https://shinbook.kr/book/mybrand.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://your7179.github.io/book/iknow.html</loc>
+    <loc>https://shinbook.kr/book/iknow.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://your7179.github.io/book/myhomepage.html</loc>
+    <loc>https://shinbook.kr/book/myhomepage.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://your7179.github.io/book/kboard.html</loc>
+    <loc>https://shinbook.kr/book/kboard.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- 작가SSUL 목록 페이지 -->
   <url>
-    <loc>https://your7179.github.io/book/ssul/</loc>
+    <loc>https://shinbook.kr/book/ssul/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
