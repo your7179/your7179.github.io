@@ -7,21 +7,21 @@
 # 이 파일을 저장할 때는 반드시 UTF-8로 저장해 주세요(메모장 기준: 다른 이름으로 저장 → 인코딩 UTF-8).
 # 사진 파일 자체는 images/gallery/ 폴더에 먼저 올려두신 다음, 아래 목록에 파일명만 적어주시면 됩니다.
 
-- file: yeon_2.webp 
-alt: "연꽃사진" 
-caption: "수련의 종류 같은데 잘 모르겠습니다."
-- file: yeon_1.webp 
-alt: "또 다른 연꽃사진" 
-caption: "이것도 수련의 종류 같은데 잘 모르겠습니다."
-- file: samagi.webp 
-alt: "사마귀 이미지" 
-caption: "당랑거철-용감한 건지, 무모한 건지..."
-- file: ggeomeok.webp 
-alt: "꺼먹다리" 
-caption: "일제 강점시 때 화천댐 자재운반용 다리"
-- file: egi_ddong.webp 
-alt: "애기똥풀" 
-caption: "줄기를 뜯으면 나오는 진액이 애기똥 같다고 애기똥풀"
-- file: bamm.webp 
-alt: "밤" 
-caption: "산밤나무에 재래종 밥을 접붙여 얻은 결과물"
+- file: yeon_2.webp
+  alt: "연꽃사진"
+  caption: "수련의 종류 같은데 잘 모르겠습니다."
+- file: yeon_1.webp
+  alt: "또 다른 연꽃사진"
+  caption: "이것도 수련의 종류 같은데 잘 모르겠습니다."
+- file: samagi.webp
+  alt: "사마귀 이미지"
+  caption: "당랑거철-용감한 건지, 무모한 건지..."
+- file: ggeomeok.webp
+  alt: "꺼먹다리"
+  caption: "일제 강점시 때 화천댐 자재운반용 다리"
+- file: egi_ddong.webp
+  alt: "애기똥풀"
+  caption: "줄기를 뜯으면 나오는 진액이 애기똥 같다고 애기똥풀"
+- file: bamm.webp
+  alt: "밤"
+  caption: "산밤나무에 재종 밤을 접붙여 얻은 결과물"
