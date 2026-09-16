@@ -46,23 +46,6 @@ permalink: /sitemap.xml
     <priority>0.7</priority>
   </url>
 
-  <!-- 게시판 페이지 -->
-  <url>
-    <loc>https://shinbook.kr/book/board/free/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://shinbook.kr/book/board/booktext/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://shinbook.kr/book/board/contact/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
   <!-- 작가SSUL 글 (새 글을 올리면 이 아래 목록에 자동으로 추가됩니다) -->
   {% for post in site.posts %}
   <url>
