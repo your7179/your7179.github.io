@@ -536,6 +536,18 @@
     font-size:14.5px;
     text-align:center;
   }
+  .footer-links{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .footer-links a{
+    color:#C9C1AC;
+    text-decoration:none;
+  }
+  .footer-links a:hover{color:var(--brass-light);}
 </style>
 </head>
 <body>
@@ -550,10 +562,8 @@
       <a href="#books">저서</a>
       <a href="https://shinbook.kr/book/ssul/" target="_blank" rel="noopener">작가SSUL</a>
       <a href="https://shinbook.kr/book/gallery/" target="_blank" rel="noopener">갤러리</a>
-      <a href="https://www.facebook.com/profile.php?id=61594181979372" target="_blank" rel="noopener">Facebook</a>
       <a href="https://shinbook.dothome.co.kr/?page_id=17" target="_blank" rel="noopener">자유게시판</a>
       <a href="https://shinbook.dothome.co.kr/?page_id=19" target="_blank" rel="noopener">BookText</a>
-      <a href="https://shinbook.dothome.co.kr/?page_id=12" target="_blank" rel="noopener">문의게시판</a>
     </nav>
     <label for="menuToggle" class="hamburger" aria-label="메뉴 열기">
       <span></span><span></span><span></span>
@@ -565,10 +575,8 @@
     <a href="#books">저서</a>
     <a href="https://shinbook.kr/book/ssul/" target="_blank" rel="noopener">작가SSUL</a>
     <a href="https://shinbook.kr/book/gallery/" target="_blank" rel="noopener">갤러리</a>
-    <a href="https://www.facebook.com/profile.php?id=61594181979372" target="_blank" rel="noopener">Facebook</a>
     <a href="https://shinbook.dothome.co.kr/?page_id=17" target="_blank" rel="noopener">자유게시판</a>
     <a href="https://shinbook.dothome.co.kr/?page_id=19" target="_blank" rel="noopener">BookText</a>
-    <a href="https://shinbook.dothome.co.kr/?page_id=12" target="_blank" rel="noopener">문의게시판</a>
   </nav>
 </div>
 
@@ -834,7 +842,14 @@
 </section>
 
 <footer>
-  <div class="wrap">신광태 작가의 서재 · 신간이 출간될 때마다 이 페이지에서 계속 이어집니다.</div>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="https://shinbook.dothome.co.kr/?page_id=12" target="_blank" rel="noopener">문의게시판</a>
+      <a href="/book/privacy/">개인정보처리방침</a>
+      <a href="/book/terms/">이용약관</a>
+    </div>
+    <div>신광태 작가의 서재 · 신간이 출간될 때마다 이 페이지에서 계속 이어집니다.</div>
+  </div>
 </footer>
 
 <script>
