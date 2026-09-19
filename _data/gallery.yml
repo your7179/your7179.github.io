@@ -7,6 +7,15 @@
 # 이 파일을 저장할 때는 반드시 UTF-8로 저장해 주세요(메모장 기준: 다른 이름으로 저장 → 인코딩 UTF-8).
 # 사진 파일 자체는 images/gallery/ 폴더에 먼저 올려두신 다음, 아래 목록에 파일명만 적어주시면 됩니다.
 
+- file: gorani.webp
+  alt: "콩 피해"
+  caption: "고라니가 뜰앞의 콩을 드렸습니다. 우리 강아지는 뭐했는지..."
+- file: daechu.webp
+  alt: "대추"
+  caption: "퇴비를 준 것과 그렇지 않은 것의 차이는 있습니다."
+- file: kimjangchu.webp
+  alt: "김장배추"
+  caption: "5년째 망쳤는데 올해는 모르겠습니다."
 - file: yeon_2.webp
   alt: "연꽃사진"
   caption: "수련의 종류 같은데 잘 모르겠습니다."
