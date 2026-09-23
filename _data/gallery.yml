@@ -7,19 +7,19 @@
 # 이 파일을 저장할 때는 반드시 UTF-8로 저장해 주세요(메모장 기준: 다른 이름으로 저장 → 인코딩 UTF-8).
 # 사진 파일 자체는 images/gallery/ 폴더에 먼저 올려두신 다음, 아래 목록에 파일명만 적어주시면 됩니다.
 
-- file: github free.webp
+- file: github_free.webp
   alt: "깃허브로 무료 홈페이지 만들기"
   caption: "깃허브로 무료 홈페이지 만드는 과정 그대로 따라하기"
-- file: join github.webp
+- file: join_github.webp
   alt: "깃허브에 게시판 연결하는 방법"
   caption: "깃허브에 자유게시판 등을 쉽게 연결할 수 있습니다."
-- file: i know what.webp
+- file: i_know_what.webp
   alt: "나는 그들이 한 짓을 알고 있다(개정판)"
   caption: "2022년 발행 후 띄어쓰기나 문법이 틀린 부분 교정"
-- file: how to make bland.webp
+- file: how_to_make_bland.webp
   alt: "나를 브랜드로 만드는 법"
   caption: "자신을 하나의 브랜드로 만들어 가능 방법 설명"
-- file: making homepage.webp
+- file: making_homepage.webp
   alt: "나도 만든다, 우리집 인터넷 홈페이지"
   caption: "도메인+웹호스팅+워드프레스+케이보드를 이용한 홈페이지 만들기"
 - file: gorani.webp
