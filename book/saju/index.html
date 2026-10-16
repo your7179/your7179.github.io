@@ -143,6 +143,26 @@
   footer .footer-links{display:flex; flex-wrap:wrap; gap:8px 22px; margin-bottom:14px;}
   footer a{color:#E3DBC8; text-decoration:none;}
   footer a:hover{color:var(--brass-light);}
+  .fortune{background:var(--paper-light); border:1px solid var(--line); border-top:4px solid var(--shelf); padding:26px 28px; margin-top:28px;}
+  .fortune h3{font-size:22px; margin-bottom:6px;}
+  .fctl{display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin:14px 0 18px;}
+  .fctl input[type=date]{font-family:inherit; font-size:17px; padding:9px 10px; border:1px solid #BDB296; background:#fff; border-radius:var(--radius); min-height:46px;}
+  .fctl .buy-btn{padding:10px 18px; font-size:15.5px;}
+  .fhead{display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; margin-bottom:12px;}
+  .fl{font-weight:700; font-size:17px; margin-bottom:2px;}
+  .fp .han{margin-right:2px;}
+  .fs{text-align:right;}
+  .stars{color:var(--brass); letter-spacing:1px; font-size:19px;}
+  .flist{margin:6px 0 12px; padding-left:0; list-style:none;}
+  .flist li{padding:8px 0; border-bottom:1px dashed var(--line); font-size:17px;}
+  .flist li b{color:var(--brass); display:inline-block; min-width:5.2em;}
+  .tipbox{background:var(--paper); border-left:3px solid var(--brass); padding:10px 14px; margin:10px 0 14px;}
+  .week,.months{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin:6px 0 16px;}
+  .months{grid-template-columns:repeat(6,1fr);}
+  .wd{background:#fff; border:1px solid var(--line); text-align:center; padding:8px 2px; line-height:1.35;}
+  .wd .stars{font-size:12.5px; letter-spacing:0; display:block;}
+  .wd.now{outline:2px solid var(--shelf);} .wd.best{border-top:3px solid var(--el-wood);} .wd.worst{border-top:3px solid var(--el-fire);}
+  @media (max-width:640px){ .week{grid-template-columns:repeat(4,1fr);} .months{grid-template-columns:repeat(3,1fr);} .fortune{padding:20px 14px;} .fs{text-align:left;} }
   @media print{ .topbar,footer,.formcard,.hero,.btn-row{display:none;} }
 </style>
 </head>
@@ -464,7 +484,28 @@ function compute(o){
   // 절기 시각 표시용(한국 표준시)
   res.termKst=function(m){return minutesToDate(m+540);};
   return res;}
-root.Saju={compute:compute,STEM:STEM,STEMH:STEMH,BR:BR,BRH:BRH,ANIMAL:ANIMAL,EL:EL,STEM_EL:STEM_EL,BR_EL:BR_EL,
+/* ---------- 운세(십성) ---------- */
+var GOD=['비견','겁재','식신','상관','편재','정재','편관','정관','편인','정인'];
+var GOD_BASE=[3,2,4,3,3,4,2,4,3,4];
+function tenGod(me,o){
+  var rel=mod(STEM_EL[o]-STEM_EL[me],5),same=(me%2)===(o%2);
+  return [0,2,4,6,8][rel]+(same?0:1);}
+/* chart: {dayStem, dayBranch, cnt:[5]} , 기간의 천간·지지 */
+function fortune(chart,pStem,pBranch){
+  var g=tenGod(chart.dayStem,pStem),sc=GOD_BASE[g];
+  var es=STEM_EL[pStem],eb=BR_EL[pBranch],cnt=chart.cnt;
+  if(cnt[es]===0)sc+=1;else if(cnt[es]>=3)sc-=0.5;
+  if(cnt[eb]===0)sc+=0.5;else if(cnt[eb]>=3)sc-=0.25;
+  var chong=((pBranch+6)%12===chart.dayBranch),hap=((pBranch+chart.dayBranch)%12===1);
+  if(chong)sc-=1;if(hap)sc+=1;
+  var star=Math.max(1,Math.min(5,Math.round(sc)));
+  return {god:g,godName:GOD[g],score:sc,star:star,chong:chong,hap:hap,weakEl:cnt[es]===0,weakBr:cnt[eb]===0};}
+function dayPillarOfJdn(j){var i=mod(j+49,60);return {stem:i%10,branch:i%12};}
+function monthPillarsOfYear(sy){var ys=mod(sy-4,10),st=(ys%5)*2+2,r=[];
+  for(var i=0;i<12;i++)r.push({stem:(st+i)%10,branch:(i+2)%12,calMonth:((i+2-1)%12)+1});return r;}
+function pillarAtNoonKst(j){ // 그 날 정오(KST)의 월·년주
+  return monthPillarAt((j-MIN_JDN)*1440+720-540);}
+root.Saju={tenGod:tenGod,fortune:fortune,GOD:GOD,dayPillarOfJdn:dayPillarOfJdn,monthPillarsOfYear:monthPillarsOfYear,pillarAtNoonKst:pillarAtNoonKst,MIN_JDN:MIN_JDN,mod:mod,compute:compute,STEM:STEM,STEMH:STEMH,BR:BR,BRH:BRH,ANIMAL:ANIMAL,EL:EL,STEM_EL:STEM_EL,BR_EL:BR_EL,
   jdn:jdn,fromJdn:fromJdn,solarToLunar:solarToLunar,lunarToSolar:lunarToSolar,lunarInfo:lunarInfo,
   termIndexAt:termIndexAt,minutesToDate:minutesToDate,TERMS:TERMS,monthPillarAt:monthPillarAt,civilOffset:civilOffset,pad:pad,JIE_NAME:JIE_NAME};
 })(typeof window!=='undefined'?window:module.exports);
@@ -594,6 +635,108 @@ function reading(r,a){
   h+='<p class="foot-note">※ 이 풀이는 사주의 기본 원리를 쉽게 옮긴 <b>재미·참고용</b>입니다. 사람의 삶은 타고난 글자 몇 개로 정해지지 않습니다. 좋은 점은 살리고 아쉬운 점은 고쳐 가는 힌트 정도로 가볍게 읽어 주세요.</p>';
   return h;
 }
+/* ---------- 운세 ---------- */
+var GT={
+ '비견':{sum:'나와 닮은 기운, 곧 ‘동료·친구’의 기운이 들어옵니다. 마음이 든든하고 자신감이 붙는 때입니다',money:'수입은 평소와 비슷합니다. 친구나 동료와 돈을 함께 쓰거나 나누는 일이 생기기 쉬우니 빌려주기·보증은 조심하세요',work:'내 방식대로 꾸준히 밀고 나가기 좋습니다. 다만 고집을 부리면 다툼이 생길 수 있습니다',rel:'동창·친구·형제와의 만남이 늘고 서로 의지가 됩니다',health:'체력은 무난합니다. 자신을 과신해 무리하지 않도록 하세요',tip:'혼자 끌어안지 말고 가까운 사람과 의논하면 일이 풀립니다'},
+ '겁재':{sum:'경쟁과 승부의 기운이 들어옵니다. 의욕은 커지지만 욕심과 충동도 같이 커지는 때입니다',money:'돈이 나가기 쉬운 흐름입니다. 충동구매, 투자, 보증, 남에게 빌려주는 일은 한 번 더 생각하세요',work:'경쟁자가 생기거나 주변과 부딪힐 수 있습니다. 양보가 곧 이기는 길입니다',rel:'말 한마디로 오해가 생기기 쉽습니다. 부드러운 말씨가 필요합니다',health:'몸에 열이 오르거나 급해지기 쉽습니다. 쉬어 가며 움직이세요',tip:'욕심을 반만 부리고, 큰 결정은 하루 미루세요'},
+ '식신':{sum:'여유와 즐거움의 기운이 들어옵니다. 마음이 편안하고 먹고 즐기고 표현하는 일이 잘 풀립니다',money:'애쓴 만큼 조금씩 쌓이는 안정적인 흐름입니다. 좋아하는 일에서 수입의 실마리가 보입니다',work:'차분히 하는 일, 글쓰기·요리·가르치기·만들기에 좋습니다',rel:'웃을 일이 많고 사람들이 편하게 다가옵니다',health:'소화와 식사가 잘 맞는 때입니다. 다만 많이 먹어 살이 찔 수 있으니 적당히 드세요',tip:'취미와 좋아하는 일에 시간을 내면 복이 따라옵니다'},
+ '상관':{sum:'재주와 표현의 기운이 들어옵니다. 아이디어가 반짝이지만 말이 날카로워지기 쉬운 때입니다',money:'재능으로 돈을 버는 길이 열리기도 하지만, 말실수나 충동으로 손해를 볼 수 있습니다',work:'새로운 시도와 창작에 좋습니다. 윗사람·규칙과 부딪히지 않게 말을 고르세요',rel:'속마음을 그대로 말하다 상처를 줄 수 있으니 한 박자 쉬고 말하세요',health:'신경이 예민해지고 잠이 얕아질 수 있습니다',tip:'하고 싶은 말은 글로 먼저 써 보고 전하세요'},
+ '편재':{sum:'움직이는 재물과 활동의 기운이 들어옵니다. 바쁘게 돌아다니고 사람과 돈이 오가는 때입니다',money:'뜻밖의 수입이나 기회가 올 수 있지만 지출도 큽니다. 투기성 투자는 조심하세요',work:'영업·거래·여러 일을 동시에 하기에 좋습니다. 마무리가 흐트러지지 않게 챙기세요',rel:'새로운 만남과 모임이 늘어납니다',health:'바쁜 일정으로 피로가 쌓이기 쉽습니다. 휴식 시간을 먼저 정해 두세요',tip:'넓게 벌려 놓기보다 중요한 한두 가지에 집중하세요'},
+ '정재':{sum:'알뜰하고 안정적인 재물의 기운이 들어옵니다. 성실하게 한 만큼 결과가 따라오는 때입니다',money:'월급·정기 수입처럼 꾸준한 돈에 좋습니다. 저축과 살림 정리에 알맞습니다',work:'맡은 일을 성실하게 해내면 인정받습니다',rel:'신뢰가 쌓이고 가정이 편안해집니다',health:'생활 리듬이 안정되어 건강하게 지낼 수 있습니다',tip:'큰 한탕보다 차곡차곡 쌓는 쪽이 이롭습니다'},
+ '편관':{sum:'도전과 압박의 기운이 들어옵니다. 해야 할 일과 책임이 늘고 긴장되는 때입니다',money:'뜻하지 않은 지출이나 부담이 생길 수 있으니 여윳돈을 챙겨 두세요',work:'어렵고 큰 일을 맡을 수 있습니다. 힘들지만 이겨 내면 실력이 늡니다',rel:'윗사람·관청·규칙과 얽히는 일이 있습니다. 예의를 지키면 무난합니다',health:'긴장과 피로로 몸이 뻐근할 수 있습니다. 무리한 운동과 운전은 조심하세요',tip:'서두르지 말고 한 가지씩 풀어 가세요. 충분한 잠이 약입니다'},
+ '정관':{sum:'질서와 명예의 기운이 들어옵니다. 바르게 행동하면 신뢰와 좋은 평가를 얻는 때입니다',money:'정직하게 얻는 수입에 좋습니다. 계약·서류·약속은 꼼꼼하게 지키세요',work:'승진·자격·시험·공적인 일에 유리합니다. 규칙을 지키는 것이 힘이 됩니다',rel:'어른이나 윗사람에게 인정받고 점잖은 인연이 생깁니다',health:'규칙적인 생활이 건강을 지켜 줍니다',tip:'약속 시간과 예의를 지키면 복이 들어옵니다'},
+ '편인':{sum:'생각과 직감의 기운이 들어옵니다. 혼자 연구하고 배우고 구상하기 좋지만 생각이 많아지는 때입니다',money:'당장 돈보다 아이디어와 공부에 마음이 갑니다. 급한 계약은 미루세요',work:'독특한 공부, 기술, 연구, 자료 정리에 좋습니다',rel:'혼자 있고 싶어지고 마음을 잘 열지 않게 됩니다. 연락을 먼저 해 보세요',health:'걱정으로 잠이 얕아지거나 속이 더부룩할 수 있습니다',tip:'생각만 하지 말고 작은 것부터 실행해 보세요'},
+ '정인':{sum:'배움과 도움의 기운이 들어옵니다. 어른이나 주변의 도움을 받고 마음이 편안해지는 때입니다',money:'크게 벌기보다 지키는 때입니다. 서류·문서·계약이 도움이 됩니다',work:'공부·자격증·글쓰기·문서 일에 좋고 귀인의 도움이 있습니다',rel:'어른과 스승, 부모님과의 관계가 따뜻해집니다',health:'마음이 안정되어 몸도 쉬어 가기 좋습니다',tip:'배우고 책을 읽고 감사 인사를 건네면 운이 커집니다'}
+};
+var GODEXP={'비견':'나와 같은 기운(친구·동료)','겁재':'나와 같지만 경쟁하는 기운','식신':'내가 낳는 기운(여유·표현)','상관':'내가 낳는 기운(재주·말)','편재':'내가 다스리는 기운(움직이는 재물)','정재':'내가 다스리는 기운(안정된 재물)','편관':'나를 다스리는 기운(도전·압박)','정관':'나를 다스리는 기운(명예·질서)','편인':'나를 낳아 주는 기운(직감·공부)','정인':'나를 낳아 주는 기운(도움·배움)'};
+var DOW=['일','월','화','수','목','금','토'];
+function stars(n){var s='';for(var i=0;i<5;i++)s+=(i<n?'★':'☆');return '<span class="stars" aria-label="5점 만점에 '+n+'점">'+s+'</span>';}
+function pname(p){return S.STEMH[p.stem]+S.BRH[p.branch]+'('+S.STEM[p.stem]+S.BR[p.branch]+')';}
+function starWord(n){return ['','조심하며 쉬어 가는 때','차분히 지켜야 하는 때','무난하고 평온한 때','잘 풀리는 때','매우 좋은 때'][n];}
+var FS={tab:'day',date:null,chart:null};
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+S.pad(d.getMonth()+1)+'-'+S.pad(d.getDate());}
+function fcard(label,p,f,chart,extra){
+  var t=GT[f.godName],h='';
+  h+='<div class="fhead"><div><div class="fl">'+label+'</div><div class="fp"><span class="han e'+S.STEM_EL[p.stem]+'" style="font-size:34px">'+S.STEMH[p.stem]+'</span><span class="han e'+S.BR_EL[p.branch]+'" style="font-size:34px">'+S.BRH[p.branch]+'</span> <span class="kor">'+S.STEM[p.stem]+S.BR[p.branch]+'</span></div></div>';
+  h+='<div class="fs">'+stars(f.star)+'<div class="kor">'+starWord(f.star)+'</div></div></div>';
+  h+='<p class="expl">나의 일간 <b>'+S.STEMH[chart.dayStem]+'('+S.STEM[chart.dayStem]+')</b> 입장에서 이 기간의 천간 <b>‘'+S.STEMH[p.stem]+'’('+S.STEM[p.stem]+')</b>의 기운은 <b class="term">'+f.godName+'</b>, 곧 “'+GODEXP[f.godName]+'”에 해당합니다.</p>';
+  return h;
+}
+function ftext(pre,f,chart){
+  var t=GT[f.godName],h='';
+  h+='<p><b>'+pre+' 전체 흐름</b> · '+t.sum+'.</p>';
+  h+='<ul class="flist"><li><b>재물</b> '+t.money+'.</li><li><b>일·직장</b> '+t.work+'.</li><li><b>사람 관계</b> '+t.rel+'.</li><li><b>건강</b> '+t.health+'.</li></ul>';
+  return h;
+}
+function branchNote(f){
+  var n='';
+  if(f.hap)n+='<p>이 기간의 지지가 나의 일지와 <b>합(合)</b>을 이룹니다. 사람과 잘 맞고 일이 부드럽게 풀리는 힘이 더해집니다.</p>';
+  if(f.chong)n+='<p>이 기간의 지지가 나의 일지와 <b>충(沖)</b>을 이룹니다. 이동·변화·분주함이 늘 수 있으니 서두르지 말고 일정에 여유를 두세요.</p>';
+  return n;
+}
+function elNote(f,p){
+  var n='';
+  if(f.weakEl)n+='<p>이 기간의 천간 기운('+EL_SHORT[S.STEM_EL[p.stem]]+')은 내 사주에 부족한 기운이라 <b>부족함을 채워 주는 좋은 힘</b>이 됩니다.</p>';
+  return n;
+}
+function renderFortune(){
+  var box=document.getElementById('fortuneBody'),c=FS.chart;if(!box||!c)return;
+  var ds=FS.date||todayStr(),pr=ds.split('-'),y=+pr[0],m=+pr[1],d=+pr[2],h='';
+  if(!y||y<1900||y>2100||m<1||d<1){box.innerHTML='<p class="error">날짜를 확인해 주세요. (1900~2100년)</p>';return;}
+  var j=S.jdn(y,m,d),mp=S.pillarAtNoonKst(j);
+  if(!mp){box.innerHTML='<p class="error">계산 범위를 벗어났어요.</p>';return;}
+  var chart={dayStem:c.dayStem,dayBranch:c.dayBranch,cnt:c.cnt};
+  if(FS.tab==='day'){
+    var p=S.dayPillarOfJdn(j),f=S.fortune(chart,p.stem,p.branch);
+    h+=fcard(y+'년 '+m+'월 '+d+'일('+DOW[(j+1)%7]+')의 일진',p,f,chart);
+    h+=ftext('이 날의',f,chart)+elNote(f,p)+branchNote(f);
+    h+='<p class="tipbox"><b>오늘의 한마디</b> '+GT[f.godName].tip+'.</p>';
+  }else if(FS.tab==='week'){
+    var dow=(j+1)%7,mon=j-((dow+6)%7),days=[],i,sum=0,best=0,worst=0,cntG={};
+    for(i=0;i<7;i++){var jj=mon+i,pp=S.dayPillarOfJdn(jj),ff=S.fortune(chart,pp.stem,pp.branch),dt=S.fromJdn(jj);
+      days.push({j:jj,p:pp,f:ff,dt:dt});sum+=ff.score;cntG[ff.godName]=(cntG[ff.godName]||0)+1;
+      if(ff.score>days[best].f.score)best=i;if(ff.score<days[worst].f.score)worst=i;}
+    var avg=Math.max(1,Math.min(5,Math.round(sum/7))),dom=Object.keys(cntG).sort(function(a,b){return cntG[b]-cntG[a];})[0];
+    var s0=days[0].dt,s6=days[6].dt;
+    h+='<div class="fhead"><div><div class="fl">이번 주 ('+s0.m+'/'+s0.d+' 월 ~ '+s6.m+'/'+s6.d+' 일)</div><div class="kor">하루하루의 일진을 모아 본 한 주의 흐름</div></div><div class="fs">'+stars(avg)+'<div class="kor">'+starWord(avg)+'</div></div></div>';
+    h+='<div class="week">';
+    days.forEach(function(x,k){h+='<div class="wd'+(x.j===j?' now':'')+(k===best?' best':'')+(k===worst?' worst':'')+'"><div class="kor">'+DOW[(x.j+1)%7]+' '+x.dt.m+'/'+x.dt.d+'</div><div class="han e'+S.STEM_EL[x.p.stem]+'" style="font-size:26px">'+S.STEMH[x.p.stem]+S.BRH[x.p.branch]+'</div>'+stars(x.f.star)+'<div class="kor">'+x.f.godName+'</div></div>';});
+    h+='</div>';
+    h+='<p><b>이번 주 흐름</b> 가장 많이 나타나는 기운은 <b class="term">'+dom+'</b>입니다. '+GT[dom].sum+'.</p>';
+    h+='<p><b>가장 좋은 날</b> '+days[best].dt.m+'월 '+days[best].dt.d+'일('+DOW[(days[best].j+1)%7]+') — '+GT[days[best].f.godName].tip+'.</p>';
+    h+='<p><b>조심할 날</b> '+days[worst].dt.m+'월 '+days[worst].dt.d+'일('+DOW[(days[worst].j+1)%7]+') — '+GT[days[worst].f.godName].tip+'.</p>';
+    h+='<ul class="flist"><li><b>재물</b> '+GT[dom].money+'.</li><li><b>일·직장</b> '+GT[dom].work+'.</li><li><b>사람 관계</b> '+GT[dom].rel+'.</li><li><b>건강</b> '+GT[dom].health+'.</li></ul>';
+  }else if(FS.tab==='month'){
+    var p2={stem:mp.stem,branch:mp.branch},f2=S.fortune(chart,p2.stem,p2.branch);
+    var t0=S.minutesToDate(S.TERMS[mp.termIdx]+540),t1=S.minutesToDate(S.TERMS[mp.termIdx+1]+540);
+    h+=fcard('이번 달 (월운) · '+mp.termName+' '+t0.m+'/'+t0.d+' ~ '+t1.m+'/'+t1.d,p2,f2,chart);
+    h+=ftext('이번 달',f2,chart)+elNote(f2,p2)+branchNote(f2);
+    h+='<p class="tipbox"><b>이번 달의 한마디</b> '+GT[f2.godName].tip+'.</p>';
+    h+='<p class="hint">사주의 한 달은 달력의 1일이 아니라 절기(節氣)가 들어오는 날부터 시작합니다.</p>';
+  }else{
+    var sy=mp.sajuYear,ys=S.mod(sy-4,10),yb=S.mod(sy-4,12),f3=S.fortune(chart,ys,yb),p3={stem:ys,branch:yb};
+    h+=fcard(sy+'년 한 해 (세운) · 입춘부터 다음 입춘 전까지',p3,f3,chart);
+    h+=ftext('올해',f3,chart)+elNote(f3,p3)+branchNote(f3);
+    h+='<p class="tipbox"><b>올해의 한마디</b> '+GT[f3.godName].tip+'.</p>';
+    var ms=S.monthPillarsOfYear(sy);
+    h+='<h4 style="margin:22px 0 10px;font-size:18px">달별 흐름 (절기 기준)</h4><div class="months">';
+    ms.forEach(function(q){var fq=S.fortune(chart,q.stem,q.branch);
+      h+='<div class="wd"><div class="kor">'+q.calMonth+'월경</div><div class="han e'+S.STEM_EL[q.stem]+'" style="font-size:24px">'+S.STEMH[q.stem]+S.BRH[q.branch]+'</div>'+stars(fq.star)+'<div class="kor">'+fq.godName+'</div></div>';});
+    h+='</div><p class="hint">달별 칸은 절기가 바뀌는 시점(대략 4~8일경) 기준이라 양력 달과 며칠 어긋납니다.</p>';
+  }
+  h+='<p class="foot-note">※ 운세는 나의 일간과 그 기간의 글자(일진·월운·세운)가 어떤 관계인지만 단순하게 풀어 쓴 <b>재미·참고용</b>입니다. 오늘 하루의 일이 이 글로 정해지지 않습니다.</p>';
+  box.innerHTML=h;
+}
+function initFortune(r,a){
+  FS.chart={dayStem:r.day.stem,dayBranch:r.day.branch,cnt:a.cnt};
+  FS.date=todayStr();FS.tab='day';
+  var di=document.getElementById('fdate');if(di)di.value=FS.date;
+  var tabs=document.getElementsByName('ftab');
+  Array.prototype.forEach.call(tabs,function(t){t.checked=(t.value==='day');t.addEventListener('change',function(){FS.tab=t.value;renderFortune();});});
+  if(di){di.addEventListener('change',function(){if(di.value){FS.date=di.value;renderFortune();}});}
+  var tb=document.getElementById('ftoday');if(tb)tb.addEventListener('click',function(){FS.date=todayStr();di.value=FS.date;renderFortune();});
+  renderFortune();
+}
 function render(r,inp){
   var a=analyze(r),h='';
   var cols=[];
@@ -626,7 +769,17 @@ function render(r,inp){
   for(var i=0;i<5;i++){h+='<div class="bar e'+i+'"><span>'+EL_NAME[i]+'</span><div class="track"><div class="fill" data-w="'+(a.cnt[i]/tot*100)+'"></div></div><b>'+a.cnt[i]+'</b></div>';}
   h+='<p class="hint" style="margin:12px 0 0">천간과 지지의 기운을 각각 한 개로 세어 모두 '+tot+'개 중에서 센 값입니다.</p></div>';
   h+='<div class="reading">'+reading(r,a)+'</div>';
+  h+='<div class="fortune" id="fortune"><h3>운세 보기</h3><p class="expl">위에서 계산한 나의 사주(일간)를 바탕으로 <b>오늘·이번 주·이번 달·올해</b>의 흐름을 봅니다. 기준 날짜를 바꾸면 다른 날짜의 운세도 볼 수 있습니다.</p>'
+   +'<div class="fctl"><div class="seg" role="radiogroup" aria-label="운세 기간">'
+   +'<label><input type="radio" name="ftab" value="day" checked><span>오늘</span></label>'
+   +'<label><input type="radio" name="ftab" value="week"><span>주간</span></label>'
+   +'<label><input type="radio" name="ftab" value="month"><span>월간</span></label>'
+   +'<label><input type="radio" name="ftab" value="year"><span>년간</span></label></div>'
+   +'<label class="hint" style="display:flex;align-items:center;gap:8px">기준 날짜 <input type="date" id="fdate" min="1900-02-01" max="2100-12-31"></label>'
+   +'<button type="button" class="buy-btn secondary" id="ftoday">오늘로</button></div>'
+   +'<div id="fortuneBody"></div></div>';
   $('out').innerHTML=h;
+  initFortune(r,a);
   $('result').style.display='block';
   setTimeout(function(){var f=document.querySelectorAll('.fill');for(var k=0;k<f.length;k++)f[k].style.width=f[k].getAttribute('data-w')+'%';},30);
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
